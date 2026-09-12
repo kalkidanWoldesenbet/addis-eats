@@ -5,9 +5,9 @@ function Layout() {
     <div>
       <header>
         <nav>
-            <Link>Home</Link>
-            <Link>Menu</Link>
-            <Link>Cart</Link>
+            <Link to="/">Home</Link>
+            <Link to="/menu">Menu</Link>
+            <Link to="/cart">Cart</Link>
         </nav>
       </header>
       <main>
