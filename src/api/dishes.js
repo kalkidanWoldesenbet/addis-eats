@@ -7,24 +7,24 @@ const DISHES = [
   { id: "6", name: "Baklava", category: "Dessert", price: 120, description: "Layered pastry with honey and nuts." },
 ];
 
-export function getDishes(){
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (false && Math.random() < 0.3) {
-                reject(new Error("Failed to load the menu"))
-            } else {
-                resolve(DISHES);
-            }
-        },800);
-    });
+export function getDishes() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (false && Math.random() < 0.3) {
+        reject(new Error("Failed to load the menu."));
+      } else {
+        resolve(DISHES);
+      }
+    }, 800);
+  });
 }
 
-export function getDishesById(id){
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const dish = DISHES.find((d) => d.id === id);
-            if (dish) resolve(dish);
-            else reject(new Error("Dish not found."));
-        }, 500);
-    });
+export function getDishById(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const dish = DISHES.find((d) => d.id === id);
+      if (dish) resolve(dish);
+      else reject(new Error("Dish not found."));
+    }, 500);
+  });
 }
