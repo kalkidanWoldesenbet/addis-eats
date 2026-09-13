@@ -27,12 +27,24 @@ export function CartProvider({ children }) {
     setItems([]);
   }
 
+  function setQuantity(dishId, quantity){
+    if (quantity <= 0){
+        removeItem(dishId);
+        return;
+    }
+    setItems((prev) => 
+        prev.map((line) =>
+          line.dish.id === dishId ? { ...line, quantity } : line
+        )
+    );
+  }
+
   const total = items.reduce(
     (sum, line) => sum + line.dish.price * line.quantity,
     0
   );
 
-  const value = { items, addItem, removeItem, clearCart, total };
+  const value = { items, addItem, removeItem, setQuantity, clearCart, total };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
@@ -44,3 +56,4 @@ export function useCart() {
   }
   return context;
 }
+

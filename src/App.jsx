@@ -2,10 +2,10 @@ import { Routes,Route } from "react-router-dom"
 import Layout from "./Layout"
 import Menu from "./menu/Menu";
 import { CartProvider,useCart } from "./cart/cartStore";
+import Cart from "./cart/Cart";
 
 function Home(){return <h1>Home</h1>; }
 function DishDetail() { return <h1>Dish Detail</h1>; }
-function Cart() { return <h1>Cart</h1>; }
 function Checkout() { return <h1>Checkout</h1>; }
 function NotFound() { return <h1>404 — Not Found</h1>; }
 
