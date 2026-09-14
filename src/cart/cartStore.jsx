@@ -1,9 +1,28 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext(null);
+const STORAGE_KEY = "addis-eats-cart";
+
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState([]); // [{ dish, quantity }]
+  const [items, setItems] = useState(loadCart); // [{ dish, quantity }]
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // storage full or blocked — cart still works in-memory
+    }
+  }, [items]);
 
   function addItem(dish) {
     setItems((prev) => {
@@ -27,15 +46,15 @@ export function CartProvider({ children }) {
     setItems([]);
   }
 
-  function setQuantity(dishId, quantity){
-    if (quantity <= 0){
-        removeItem(dishId);
-        return;
+  function setQuantity(dishId, quantity) {
+    if (quantity <= 0) {
+      removeItem(dishId);
+      return;
     }
-    setItems((prev) => 
-        prev.map((line) =>
-          line.dish.id === dishId ? { ...line, quantity } : line
-        )
+    setItems((prev) =>
+      prev.map((line) =>
+        line.dish.id === dishId ? { ...line, quantity } : line
+      )
     );
   }
 
@@ -56,4 +75,3 @@ export function useCart() {
   }
   return context;
 }
-
