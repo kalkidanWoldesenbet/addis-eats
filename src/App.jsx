@@ -4,10 +4,13 @@ import Menu from "./menu/Menu";
 import { CartProvider, useCart } from "./cart/cartStore";
 import Cart from "./cart/Cart";
 import DishDetail from "./menu/DishDetail";
-import Checkout from "./checkout/Checkout";
+// import Checkout from "./checkout/Checkout";
 import RequireAuth from "./auth/RequireAuth"
 import { AuthProvider } from "./auth/AuthProvider";
 import SignIn from "./auth/SignIn"
+import ErrorBoundary from "./ErrorBoundary";
+import { lazy, Suspense } from "react";
+const Checkout = lazy(() => import("./checkout/Checkout"));
 
 function Home() { return <h1>Home</h1>; }
 
@@ -25,6 +28,7 @@ function NotFound() { return <h1>404 — Not Found</h1>; }
 
 function App() {
   return (
+    <ErrorBoundary>
     <AuthProvider>
       <CartProvider>
         <Routes>
@@ -35,13 +39,18 @@ function App() {
             <Route path="cart" element={<Cart />} />
             <Route path="signin" element={<SignIn />} />
             <Route element={<RequireAuth />}>
-              <Route path="checkout" element={<Checkout />} />
+              <Route path="checkout" element={
+                <Suspense fallback={<p>Loading checkout…</p>}>
+                   <Checkout />
+                 </Suspense>
+                } />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </CartProvider>
     </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
