@@ -4,15 +4,15 @@ import Menu from "./menu/Menu";
 import { CartProvider, useCart } from "./cart/cartStore";
 import Cart from "./cart/Cart";
 import DishDetail from "./menu/DishDetail";
-// import Checkout from "./checkout/Checkout";
 import RequireAuth from "./auth/RequireAuth"
 import { AuthProvider } from "./auth/AuthProvider";
 import SignIn from "./auth/SignIn"
 import ErrorBoundary from "./ErrorBoundary";
 import { lazy, Suspense } from "react";
 const Checkout = lazy(() => import("./checkout/Checkout"));
+import Home from "./Home";
 
-function Home() { return <h1>Home</h1>; }
+
 
 function DishDetailRoute() {
   const { addItem } = useCart();
