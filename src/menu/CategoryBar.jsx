@@ -2,7 +2,7 @@ const CATEGORIES = ["All", "Main ","Vegetarian","Dessert"];
 
 function CategoryBar({selected, onSelect}) {
   return (
-    <div>
+    <div className="category-bar">
       {CATEGORIES.map((cat) => (
         <button
           key={cat}

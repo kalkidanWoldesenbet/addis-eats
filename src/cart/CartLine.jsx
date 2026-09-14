@@ -19,7 +19,7 @@ function CartLine({ line, onQuantityChange, onRemove }) {
         </div>
 
         <p>{lineTotal} ETB</p>
-        <button onClick={() => onRemove(dish.id)}>Remove</button>
+        <button className="remove-btn" onClick={() => onRemove(dish.id)}>Remove</button>
       
     </div>
   )
