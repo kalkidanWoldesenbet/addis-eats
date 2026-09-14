@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useCart } from "./cartStore"
-import CartLine from "./cartLine";
+import CartLine from "./CartLine";
 
 function Cart() {
     const {items, setQuantity, removeItem, total} = useCart();
