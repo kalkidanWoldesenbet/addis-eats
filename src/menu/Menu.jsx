@@ -1,33 +1,54 @@
-import { useSearchParams } from "react-router-dom"
-import { useFetch } from "../hooks/useFetch"
-import { getDishes } from "../api/dishes"
-import CategoryBar from "./CategoryBar"
-import DishList from "./DishList"
+import { useSearchParams } from "react-router-dom";
+import { useFetch } from "../hooks/useFetch";
+import { getDishes } from "../api/dishes";
+import CategoryBar from "./CategoryBar";
+import DishList from "./DishList";
 
-function Menu({onAdd}) {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const category = searchParams.get("category") || "All";
+export default function Menu({ onAdd }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category") || "All";
+  const search = searchParams.get("search") || "";
 
-    const { data: dishes, status, error } = useFetch(getDishes, []);
+  const { data: dishes, status, error } = useFetch(getDishes, []);
 
-    if (status === "loading") return <p>Loading menu...</p>
-    if (status === "error") return <p role="alert">{error.message}</p>;
+  if (status === "loading") return <p>Loading menu…</p>;
+  if (status === "error") return <p role="alert">{error.message}</p>;
 
-    const filtered =
-    category === "All" 
-                    ? dishes 
-                    : dishes.filter((d) => d.category === category);
+  let filtered = category === "All" ? dishes : dishes.filter((d) => d.category === category);
+
+  if (search.trim()) {
+    const q = search.trim().toLowerCase();
+    filtered = filtered.filter((d) => d.name.toLowerCase().includes(q));
+  }
+
+  function handleCategorySelect(cat) {
+    const params = new URLSearchParams(searchParams);
+    if (cat === "All") {
+      params.delete("category");
+    } else {
+      params.set("category", cat);
+    }
+    setSearchParams(params);
+  }
 
   return (
     <div>
-      <h1>Menu</h1>
-      <CategoryBar
-        selected={category}
-        onSelect={(cat) => setSearchParams(cat === "All" ? {} : { category: cat })}
-      />
+      <div className="menu-hero">
+        <div>
+          <span className="hero-tag">Today's Specials</span>
+          <h1>Fresh from Addis Ababa's kitchens</h1>
+          <p>Slow-simmered stews and fire-grilled tibs, delivered hot.</p>
+        </div>
+      </div>
+
+      {search && (
+        <p>
+          Results for "{search}" ({filtered.length} found)
+        </p>
+      )}
+
+      <CategoryBar selected={category} onSelect={handleCategorySelect} />
       <DishList dishes={filtered} onAdd={onAdd} />
     </div>
-  )
+  );
 }
-
-export default Menu

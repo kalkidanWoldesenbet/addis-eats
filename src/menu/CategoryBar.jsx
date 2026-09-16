@@ -1,4 +1,4 @@
-const CATEGORIES = ["All", "Main ","Vegetarian","Dessert"];
+const CATEGORIES = ["All", "Main", "Vegetarian", "Dessert", "Drinks"];
 
 function CategoryBar({selected, onSelect}) {
   return (
